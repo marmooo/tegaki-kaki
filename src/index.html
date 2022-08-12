@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ja">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="手書きで漢字の書き取り練習ができるゲームです。">
+    <title>手書き漢字書き取り</title>
+    <meta property="og:title" content="手書き漢字書き取り">
+    <meta property="og:site_name" content="手書き漢字書き取り">
+    <meta property="og:description" content="手書きで漢字の書き取り練習ができるゲームです。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://marmooo.github.io/tegaki-kaki/">
+    <meta property="og:image" content="https://marmooo.github.io/tegaki-kaki/favicon/apple-touch-icon.png">
+    <meta name="twitter:card" content="summary">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F2179JXDYY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F2179JXDYY');
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/tegaki-kaki/sw.js');
+        });
+      }
+    </script>
+    <link rel="icon" type="image/png" href="/tegaki-kaki/favicon/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="/tegaki-kaki/favicon/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/tegaki-kaki/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/tegaki-kaki/favicon/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <style>
+      .tile { width:84px; padding-bottom:1rem; line-height:1.1rem; padding:.25rem; }
+      @font-face {
+        font-family: textar-light;
+        src: url('https://marmooo.github.io/fonts/textar-light.woff2') format('woff2');
+        font-display: swap;
+      }
+      pre.aa {
+        font-size: 1rem;
+        display: inline-block;
+        text-align: left;
+        font-family: textar-light;
+        line-height: 1.1;
+        white-space: pre;
+        word-wrap: normal;
+      }
+      canvas { width:140px; height:140px; border:solid 1px; }
+      .eraser { display:block; margin:auto; cursor:pointer; }
+      #counter {
+        font-size:10rem; width:12rem; height:12rem; line-height:12rem; border-radius: 50%;
+        background:tomato; margin:auto; }
+      html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg); }
+      @-moz-document url-prefix() { html[data-theme="dark"] { background-color:black; } }
+    </style>
+    <script data-ad-client="ca-pub-6459713332128733" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand navbar-light">
+        <div class="container flex-wrap">
+          <a class="navbar-brand" href="/tegaki-kaki/">
+            <img alt="手書き漢字書き取り" src="/tegaki-kaki/favicon/favicon.svg" width="32" height="32">
+            手書き漢字書き取り
+          </a>
+          <div class="navbar-nav">
+            <select title="学年" id="gradeOption" class="form-select form-select-sm">
+              <option>小1</option>
+              <option>小2</option>
+              <option>小3</option>
+              <option selected>小4</option>
+              <option>小5</option>
+              <option>小6</option>
+              <option>中1/2</option>
+              <option>中3</option>
+            </select>
+            <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main id="container" class="container">
+      <noscript>
+        <div class="alert alert-warning">JavaScript を ON にしてください</div>
+      </noscript>
+      <div id="noTTS" class="alert alert-warning d-none">
+        <p>お使いのブラウザは音声読み上げに対応していません。
+        Firefox for Linux は発話モジュールをインストールしてください。例:
+        </p>
+        <pre><code>sudo apt install speech-dispatcher
+sudo apt install festival speech-dispatcher-festival</code></pre>
+      </div>
+      <div id="playPanel">
+        <div class="row">
+          <div class="col-md">
+            <p>手書きで漢字の書き取り練習ができるゲームです。
+            </p>
+            <div class="d-flex">
+              <div class="notranslate">
+                <pre class="aa">
+　 彡⌒ ミ
+　(´･ω･｀)
+　 |u 　 u|
+　 ｀u―u'
+                </pre>
+              </div>
+              <div class="ps-2">3分でどれくらい解けるかな？</div>
+            </div>
+          </div>
+          <div class="col-md text-center">
+            <div class="alert alert-info">
+              <div class="d-flex flex-wrap justify-content-center">
+                <div class="h5 text-nowrap notranslate">
+                  <span id="time">180</span>
+                  <span> / 180 sec</span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button id="startButton" class="btn btn-primary btn-lg">スタート</button>
+                <button id="showAnswer" class="btn btn-lg btn-secondary">こたえ</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="h2 pt-3">
+          <div>
+            <span>問題:</span>
+            <button title="問題文を変える" id="reloadProblem" class="btn p-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="ps-1" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+              </svg>
+            </button>
+            <span id="problem" class="ps-1 notranslate">[かんじ]を書こう！</span>
+            <span id="answer" class="ps-2 text-secondary d-none notranslate">漢字</span>
+          </div>
+          <div>
+            <span>回答:</span>
+            <span id="reply" class="ps-1 notranslate"></span>
+          </div>
+        </div>
+        <div id="tegakiPanel" class="d-flex justify-content-start pt-3 overflow-auto">
+          <div>
+            <canvas width="140" height="140"></canvas>
+            <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser">
+          </div>
+          <div>
+            <canvas width="140" height="140"></canvas>
+            <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser">
+          </div>
+        </div>
+      </div>
+      <div id="countPanel" class="text-center d-none notranslate">
+        <div id="countdown">
+          <div id="counter">3</div>
+          <pre class="aa">
+
+　　　*'``・* 。
+　　　|　　　　 `*。
+　 ,∩彡⌒ ミ　 　*
+　+　(´･ω･`)　*｡+ﾟ
+　`*｡ ヽ、　 つ *ﾟ*
+　　`・+｡*・' ﾟ⊃ +ﾟ
+　　☆　　 ∪~ ｡*ﾟ
+　　 `・+｡*・ ﾟ
+          </pre>
+        </div>
+      </div>
+      <div id="scorePanel" class="text-center pb-3 d-none">
+        <h3 class="pt-3">スコア</h3>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="notranslate">
+            <pre class="aa">＿＿＿　 彡 ⌒ ミ _＿＿
+＼ 　 ＼ （ ´･ω･｀）＼　　＼
+　 ￣|￣|￣∪￣∪￣|￣￣
+　 　 | 　|　hagezon 　|
+　　　＼.|＿＿＿＿＿|
+            </pre>
+          </div>
+          <div class="ps-1">スコアだよ！</div>
+        </div>
+        <div class="h2 pb-3 notranslate">
+          <span id="score" class="h1">0</span> /
+          <span id="total" class="h1">0</span>
+        </div>
+        <a id="twitter" target="_blank" href="https://twitter.com/intent/tweet?text=手書き漢字書き取りで遊んだよ!&url=https%3a%2f%2fmarmooo.github.com/tegaki-kaki/%2f&hashtags=手書き漢字書き取り" class="btn btn-primary btn-lg m-1" role="button">Twitter でつぶやく</a>
+        <button id="restartButton" type="button" class="btn btn-primary btn-lg m-1">リスタート</button>
+      </div>
+      <div class="pt-3 d-md-block d-none text-center">
+        他にもいろいろなゲームがあるよ！
+        <div class="text-center d-flex flex-wrap justify-content-center pt-3">
+          <div class="tile">
+            <a href="https://marmooo.github.io/grament/">
+              <img alt="Grament" src="https://marmooo.github.io/grament/favicon/favicon.svg" width="64" height="64" loading="lazy">
+              <br>
+              <small>Grament</small>
+            </a>
+          </div>
+          <div class="tile">
+            <a href="https://marmooo.github.io/touch-shodo/">
+              <img alt="タッチ書道ドリル" src="https://marmooo.github.io/touch-shodo/favicon/favicon.svg" width="64" height="64" loading="lazy">
+              <br>
+              <small>タッチ書道ドリル</small>
+            </a>
+          </div>
+          <div class="tile">
+            <a href="https://marmooo.github.io/calc-and-type/">
+              <img alt="Calc and Type" src="https://marmooo.github.io/calc-and-type/favicon/favicon.svg" width="64" height="64" loading="lazy">
+              <br>
+              <small>Calc and Type</small>
+            </a>
+          </div>
+        </div>
+      </div>
+      <template id="tegaki-box">
+        <style>
+          canvas { width:140px; height:140px; border:solid 1px; }
+          .eraser { display:block; margin:auto; cursor:pointer; }
+        </style>
+        <div>
+          <canvas width="140" height="140"></canvas>
+          <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser">
+        </div>
+      </template>
+    </main>
+    <footer class="pt-4 alert text-center">
+      <div>
+        <a class="px-1" href="/">Home</a>
+        <a class="px-1" href="/terms/">Terms</a>
+        <a class="px-1" href="https://github.com/marmooo/tegaki-kaki">Contact</a>
+      </div>
+      <div class="text-muted">&copy; <a href="https://github.com/marmooo">marmooo</a></div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.7/dist/signature_pad.umd.min.js" integrity="sha256-CMptYYXRcNVLvNSGRK6ZLrOBRO729Cg5aAC8l34V+nI=" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
