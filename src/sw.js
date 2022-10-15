@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-10-09 10:18";
+var CACHE_NAME = "2022-10-15 12:58";
 var urlsToCache = [
   "/tegaki-kaki/",
   "/tegaki-kaki/index.js",
@@ -10,7 +10,7 @@ var urlsToCache = [
   "/tegaki-kaki/eraser.svg",
   "/tegaki-kaki/favicon/favicon.svg",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.9/dist/signature_pad.umd.min.js",
+  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.10/dist/signature_pad.umd.min.js",
 ];
 
 self.addEventListener("install", function (event) {
