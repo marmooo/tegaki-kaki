@@ -49,7 +49,7 @@
         word-wrap: normal;
       }
       canvas { width:140px; height:140px; border:solid 1px; }
-      .eraser { display:block; margin:auto; cursor:pointer; }
+      .eraser { display:block; margin:auto; }
       #counter {
         font-size:10rem; width:12rem; height:12rem; line-height:12rem; border-radius: 50%;
         background:tomato; margin:auto; }
@@ -145,11 +145,11 @@ sudo apt install festival speech-dispatcher-festival</code></pre>
         <div id="tegakiPanel" class="d-flex justify-content-start pt-3 overflow-auto">
           <div>
             <canvas width="140" height="140"></canvas>
-            <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser">
+            <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser" role="button">
           </div>
           <div>
             <canvas width="140" height="140"></canvas>
-            <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser">
+            <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser" role="button">
           </div>
         </div>
       </div>
@@ -218,11 +218,11 @@ sudo apt install festival speech-dispatcher-festival</code></pre>
       <template id="tegaki-box">
         <style>
           canvas { width:140px; height:140px; border:solid 1px; }
-          .eraser { display:block; margin:auto; cursor:pointer; }
+          .eraser { display:block; margin:auto; }
         </style>
         <div>
           <canvas width="140" height="140"></canvas>
-          <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser">
+          <img src="eraser.svg" width="32" height="32" alt="書き直し" class="eraser" role="button">
         </div>
       </template>
     </main>
