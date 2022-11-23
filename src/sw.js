@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-11-23 10:35";
+var CACHE_NAME = "2022-11-23 10:36";
 var urlsToCache = [
   "/tegaki-kaki/",
   "/tegaki-kaki/index.js",
