@@ -21,7 +21,7 @@ function predict(imageData) {
 }
 
 importScripts(
-  "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js",
+  "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.1.0/dist/tf.min.js",
 );
 
 let model;
