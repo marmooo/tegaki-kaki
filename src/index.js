@@ -233,11 +233,11 @@ function nextProblem() {
 
 function initProblems() {
   const grade = document.getElementById("gradeOption").selectedIndex + 1;
-  fetch("data/" + grade + ".tsv")
+  fetch("data/" + grade + ".csv")
     .then((response) => response.text())
-    .then((tsv) => {
+    .then((csv) => {
       problems = [];
-      tsv.trimEnd().split(/\n/).forEach((line) => {
+      csv.trimEnd().split(/\n/).forEach((line) => {
         const [kanji, yomi, ...sentences] = line.split(",");
         problems.push([kanji, yomi, sentences]);
       });
