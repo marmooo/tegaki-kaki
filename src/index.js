@@ -13,7 +13,8 @@ let answerYomi = "かんじ";
 let answerSentences = "漢字を書こう！";
 let englishVoices = [];
 let correctCount = problemCount = 0;
-const canvasCache = document.createElement("canvas").getContext("2d");
+const canvasCache = document.createElement("canvas")
+  .getContext("2d", { willReadFrequently: true });
 let endAudio, correctAudio;
 loadAudios();
 const AudioContext = window.AudioContext || window.webkitAudioContext;
