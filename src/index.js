@@ -11,7 +11,6 @@ let problemCandidate;
 let answerKanji = "漢字";
 let answerYomi = "かんじ";
 let answerSentences = "漢字を書こう！";
-let englishVoices = [];
 let correctCount = problemCount = 0;
 const canvasCache = document.createElement("canvas")
   .getContext("2d", { willReadFrequently: true });
@@ -19,6 +18,8 @@ const audioContext = new AudioContext();
 const audioBufferCache = {};
 loadAudio("end", "mp3/end.mp3");
 loadAudio("correct", "mp3/correct3.mp3");
+let japaneseVoices = [];
+loadVoices();
 loadConfig();
 
 function loadConfig() {
@@ -87,15 +88,14 @@ function loadVoices() {
     }
   });
   allVoicesObtained.then((voices) => {
-    englishVoices = voices.filter((voice) => voice.lang == "ja-JP");
+    japaneseVoices = voices.filter((voice) => voice.lang == "ja-JP");
   });
 }
-loadVoices();
 
 function speak(text) {
   speechSynthesis.cancel();
   const msg = new SpeechSynthesisUtterance(text);
-  msg.voice = englishVoices[Math.floor(Math.random() * englishVoices.length)];
+  msg.voice = japaneseVoices[Math.floor(Math.random() * japaneseVoices.length)];
   msg.lang = "ja-JP";
   speechSynthesis.speak(msg);
 }
