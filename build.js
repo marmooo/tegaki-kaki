@@ -1,6 +1,6 @@
 import { readLines } from "https://deno.land/std/io/mod.ts";
 import { YomiDict } from "https://raw.githubusercontent.com/marmooo/yomi-dict/v0.1.3/mod.js";
-import { DB } from "https://deno.land/x/sqlite@v3.4.0/mod.ts";
+import { Database } from "https://deno.land/x/sqlite3@0.9.1/mod.ts";
 
 const w1_ = Array.from(
   "一右雨円王音下火花貝学気九休玉金空月犬見五口校左三山子四糸字耳七車手十出女小上森人水正生青夕石赤千川先早草足村大男竹中虫町天田土二日入年白八百文木本名目立力林六",
@@ -101,7 +101,7 @@ function removeDakuon(yomis) {
   tmpYomis.forEach((data) => {
     const [i, yomi, diff] = data;
     if (yomi in tmpDict) {
-      const [iPrev, diffPrev] = tmpDict[yomi];
+      const diffPrev = tmpDict[yomi][1];
       if (diff < diffPrev) {
         tmpDict[yomi] = [i, diff];
       }
@@ -113,8 +113,8 @@ function removeDakuon(yomis) {
 }
 
 async function build(threshold) {
-  const wncc = new DB("wncc-ja/remote.db");
-  const getCollocation = wncc.prepareQuery(`
+  const wncc = new Database("wncc-ja/remote.db");
+  const getCollocation = wncc.prepare(`
     SELECT words FROM collocations WHERE lemma = ?
   `);
   const yomiDict = await YomiDict.load("yomi-dict/yomi.csv");
@@ -133,7 +133,7 @@ async function build(threshold) {
       yomis = removeDakuon(yomis);
       if (yomis.length > 1) continue;
       const yomi = yomis[0];
-      const row = getCollocation.all([word]);
+      const row = getCollocation.values([word]);
       if (row.length > 0) {
         const collocations = JSON.parse(row);
         const cs = collocations
