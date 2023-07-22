@@ -1,4 +1,4 @@
-var CACHE_NAME = "2023-07-17 00:10";
+var CACHE_NAME = "2023-07-22 11:11";
 var urlsToCache = [
   "/tegaki-kaki/",
   "/tegaki-kaki/index.js",
@@ -8,7 +8,7 @@ var urlsToCache = [
   "/tegaki-kaki/mp3/correct3.mp3",
   "/tegaki-kaki/mp3/end.mp3",
   "/tegaki-kaki/favicon/favicon.svg",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js",
+  "https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js",
 ];
 
 self.addEventListener("install", function (event) {
