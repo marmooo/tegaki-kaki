@@ -1,7 +1,7 @@
 import { readLines } from "https://deno.land/std/io/mod.ts";
 import { YomiDict } from "https://raw.githubusercontent.com/marmooo/yomi-dict/v0.1.7/mod.js";
 import { Database } from "https://deno.land/x/sqlite3@0.10.0/mod.ts";
-import { Kanji, JKAT } from "npm:@marmooo/kanji@0.0.4";
+import { Kanji, JKAT } from "npm:@marmooo/kanji@0.0.8";
 
 async function getGradedWords(filepath, threshold) {
   const examples = [];
