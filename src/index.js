@@ -170,7 +170,8 @@ function initSignaturePad(canvas) {
 }
 
 function getImageData(drawElement) {
-  const inputWidth = inputHeight = 28;
+  const inputWidth = 28;
+  const inputHeight = 28;
   // resize
   canvasCache.drawImage(drawElement, 0, 0, inputWidth, inputHeight);
   // invert color
