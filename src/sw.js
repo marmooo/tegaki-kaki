@@ -8,7 +8,6 @@ const urlsToCache = [
   "/tegaki-kaki/mp3/correct3.mp3",
   "/tegaki-kaki/mp3/end.mp3",
   "/tegaki-kaki/favicon/favicon.svg",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js",
 ];
 
 self.addEventListener("install", (event) => {
