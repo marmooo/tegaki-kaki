@@ -14,7 +14,8 @@ let problemCandidate;
 let answerKanji = "漢字";
 let answerYomi = "かんじ";
 let answerSentences = "漢字を書こう！";
-let correctCount = problemCount = 0;
+let correctCount = 0;
+let totalCount = 0;
 const canvasCache = document.createElement("canvas").getContext("2d", {
   alpha: false,
   willReadFrequently: true,
@@ -211,7 +212,7 @@ function showAnswer() {
 
 function nextProblem() {
   hinted = false;
-  problemCount += 1;
+  totalCount += 1;
   if (problemCandidate.length <= 0) {
     problemCandidate = problems.slice();
   }
@@ -258,8 +259,8 @@ function startGameTimer() {
       playAudio("end");
       playPanel.classList.add("d-none");
       scorePanel.classList.remove("d-none");
-      document.getElementById("score").textContent = correctCount;
-      document.getElementById("total").textContent = problemCount;
+      document.getElementById("score").textContent =
+        `${correctCount} / ${totalCount}`;
     }
   }, 1000);
 }
@@ -284,9 +285,7 @@ function countdown() {
       countPanel.classList.add("d-none");
       infoPanel.classList.remove("d-none");
       playPanel.classList.remove("d-none");
-      correctCount = problemCount = 0;
-      document.getElementById("score").textContent = correctCount;
-      document.getElementById("total").textContent = problemCount - 1;
+      correctCount = totalCount = 0;
       nextProblem();
       startGameTimer();
     }
