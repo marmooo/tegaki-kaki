@@ -1,4 +1,4 @@
-import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/+esm";
+import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/+esm";
 
 const playPanel = document.getElementById("playPanel");
 const infoPanel = document.getElementById("infoPanel");
