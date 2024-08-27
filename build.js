@@ -1,5 +1,5 @@
 import { TextLineStream } from "jsr:@std/streams/text-line-stream";
-import { YomiDict } from "https://raw.githubusercontent.com/marmooo/yomi-dict/v0.1.7/mod.js";
+import { YomiDict } from "npm:yomi-dict@0.1.8";
 import { Database } from "https://deno.land/x/sqlite3@0.11.1/mod.ts";
 import { Kanji, JKAT } from "npm:@marmooo/kanji@0.0.8";
 
