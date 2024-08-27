@@ -1,12 +1,15 @@
-import { readLines } from "https://deno.land/std/io/mod.ts";
+import { TextLineStream } from "jsr:@std/streams/text-line-stream";
 import { YomiDict } from "https://raw.githubusercontent.com/marmooo/yomi-dict/v0.1.7/mod.js";
 import { Database } from "https://deno.land/x/sqlite3@0.11.1/mod.ts";
 import { Kanji, JKAT } from "npm:@marmooo/kanji@0.0.8";
 
-async function getGradedWords(filepath, threshold) {
+async function getGradedWords(filePath, threshold) {
   const examples = [];
-  const fileReader = await Deno.open(filepath);
-  for await (const line of readLines(fileReader)) {
+  const file = await Deno.open(filePath);
+  const lineStream = file.readable
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new TextLineStream());
+  for await (const line of lineStream) {
     if (!line) continue;
     const arr = line.split(",");
     const word = arr[0];
