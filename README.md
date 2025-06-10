@@ -15,6 +15,6 @@
 ## Build
 
 ```
-deno run -A build.js
+deno run -A build-dict.js
 bash build.sh
 ```
