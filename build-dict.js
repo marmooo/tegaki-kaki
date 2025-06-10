@@ -1,7 +1,7 @@
-import { TextLineStream } from "jsr:@std/streams/text-line-stream";
-import { YomiDict } from "npm:yomi-dict@0.2.0";
-import { Database } from "jsr:@db/sqlite@0.12.0";
-import { Kanji, JKAT } from "npm:@marmooo/kanji@0.0.8";
+import { TextLineStream } from "@std/streams";
+import { YomiDict } from "yomi-dict";
+import { Database } from "@db/sqlite";
+import { Kanji, JKAT } from "@marmooo/kanji";
 
 async function getGradedWords(filePath, threshold) {
   const examples = [];
