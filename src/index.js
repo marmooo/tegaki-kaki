@@ -256,18 +256,16 @@ function nextProblem() {
   setTegakiPanel(answerKanji.length);
 }
 
-function initProblems() {
+async function initProblems() {
   const grade = document.getElementById("gradeOption").selectedIndex + 1;
-  fetch("data/" + grade + ".csv")
-    .then((response) => response.text())
-    .then((csv) => {
-      problems = [];
-      csv.trimEnd().split(/\n/).forEach((line) => {
-        const [kanji, yomi, ...sentences] = line.split(",");
-        problems.push([kanji, yomi, sentences]);
-      });
-      problemCandidate = problems.slice();
-    });
+  const response = await fetch("data/" + grade + ".csv");
+  const csv = await response.text();
+  problems = [];
+  csv.trimEnd().split(/\n/).forEach((line) => {
+    const [kanji, yomi, ...sentences] = line.split(",");
+    problems.push([kanji, yomi, sentences]);
+  });
+  problemCandidate = problems.slice();
 }
 
 let gameTimer;
@@ -415,7 +413,7 @@ worker.addEventListener("message", (event) => {
   }
 });
 
-initProblems();
+await initProblems();
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("restartButton").onclick = countdown;
