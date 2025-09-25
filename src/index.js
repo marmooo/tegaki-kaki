@@ -1,4 +1,5 @@
 import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.1/+esm";
+import { createWorker } from "https://cdn.jsdelivr.net/npm/emoji-particle@0.0.4/+esm";
 
 const playPanel = document.getElementById("playPanel");
 const infoPanel = document.getElementById("infoPanel");
@@ -7,6 +8,7 @@ const scorePanel = document.getElementById("scorePanel");
 const tegakiPanel = document.getElementById("tegakiPanel");
 let canvases = [...tegakiPanel.getElementsByTagName("canvas")];
 const gameTime = 180;
+const emojiParticle = initEmojiParticle();
 let hinted = false;
 let pads = [];
 let problems = [];
@@ -15,7 +17,7 @@ let answerKanji = "漢字";
 let answerYomi = "かんじ";
 let answerSentences = "漢字を書こう！";
 let correctCount = 0;
-let totalCount = 0;
+let problemCount = 0;
 const canvasCache = document.createElement("canvas").getContext("2d", {
   alpha: false,
   willReadFrequently: true,
@@ -130,6 +132,30 @@ function loadVoices() {
   });
 }
 
+function initEmojiParticle() {
+  const canvas = document.createElement("canvas");
+  Object.assign(canvas.style, {
+    position: "fixed",
+    pointerEvents: "none",
+    top: "0px",
+    left: "0px",
+  });
+  canvas.width = document.documentElement.clientWidth;
+  canvas.height = document.documentElement.clientHeight;
+  document.body.prepend(canvas);
+
+  const offscreen = canvas.transferControlToOffscreen();
+  const worker = createWorker();
+  worker.postMessage({ type: "init", canvas: offscreen }, [offscreen]);
+
+  globalThis.addEventListener("resize", () => {
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    worker.postMessage({ type: "resize", width, height });
+  });
+  return { canvas, offscreen, worker };
+}
+
 function speak(text) {
   speechSynthesis.cancel();
   const msg = new globalThis.SpeechSynthesisUtterance(text);
@@ -237,7 +263,17 @@ function showAnswer() {
 
 function nextProblem() {
   hinted = false;
-  totalCount += 1;
+  for (let i = 0; i < correctCount; i++) {
+    emojiParticle.worker.postMessage({
+      type: "spawn",
+      options: {
+        particleType: "popcorn",
+        originX: Math.random() * emojiParticle.canvas.width,
+        originY: Math.random() * emojiParticle.canvas.height,
+      },
+    });
+  }
+  problemCount += 1;
   if (problemCandidate.length <= 0) {
     problemCandidate = problems.slice();
   }
@@ -283,7 +319,7 @@ function startGameTimer() {
       playPanel.classList.add("d-none");
       scorePanel.classList.remove("d-none");
       document.getElementById("score").textContent =
-        `${correctCount} / ${totalCount}`;
+        `${correctCount} / ${problemCount}`;
     }
   }, 1000);
 }
@@ -306,7 +342,7 @@ function countdown() {
       countPanel.classList.add("d-none");
       infoPanel.classList.remove("d-none");
       playPanel.classList.remove("d-none");
-      correctCount = totalCount = 0;
+      correctCount = problemCount = 0;
       nextProblem();
       startGameTimer();
     }

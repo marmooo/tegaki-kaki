@@ -47,13 +47,13 @@
         white-space: pre;
         word-wrap: normal;
       }
-      canvas { width:140px; height:140px; outline:solid 1px #000; -webkit-user-select:none; }
+      .tegakiCanvas { width:140px; height:140px; outline:solid 1px #000; -webkit-user-select:none; }
       .eraser { display:block; margin:auto; touch-action:none; }
       #counter {
         font-size:10rem; width:12rem; height:12rem; line-height:12rem; border-radius: 50%;
         background:tomato; color:black; margin:auto; }
       html[data-bs-theme="dark"] .favicon { filter: invert(1) hue-rotate(180deg); }
-      html[data-bs-theme="dark"] canvas { filter: invert(1) hue-rotate(180deg); }
+      html[data-bs-theme="dark"] .tegakiCanvas { filter: invert(1) hue-rotate(180deg); }
     </style>
     <script data-ad-client="ca-pub-6459713332128733" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   </head>
@@ -149,13 +149,13 @@ sudo apt install festival speech-dispatcher-festival</code></pre>
         </div>
         <div id="tegakiPanel" class="d-flex justify-content-start pt-3 ps-1 overflow-auto">
           <div>
-            <canvas width="140" height="140"></canvas>
+            <canvas class="tegakiCanvas" width="140" height="140"></canvas>
             <button title="書き直し" class="eraser btn p-0" type="button">
               <svg width="32" height="32" viewBox="0 0 24 24"><use href="#eraser"/></svg>
             </button>
           </div>
           <div>
-            <canvas width="140" height="140"></canvas>
+            <canvas class="tegakiCanvas" width="140" height="140"></canvas>
             <button title="書き直し" class="eraser btn p-0" type="button">
               <svg width="32" height="32" viewBox="0 0 24 24"><use href="#eraser"/></svg>
             </button>
@@ -199,11 +199,11 @@ sudo apt install festival speech-dispatcher-festival</code></pre>
       </div>
       <template id="tegaki-box">
         <style>
-          canvas { width:140px; height:140px; outline:solid 1px #000; -webkit-user-select:none; }
+          .tegakiCanvas { width:140px; height:140px; outline:solid 1px #000; -webkit-user-select:none; }
           .eraser { display:block; margin:auto; touch-action:none; }
         </style>
         <div>
-          <canvas width="140" height="140"></canvas>
+          <canvas class="tegakiCanvas" width="140" height="140"></canvas>
           <button title="書き直し" class="eraser btn p-0" type="button">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><use href="#eraser"/></svg>
           </button>
