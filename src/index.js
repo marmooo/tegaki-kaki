@@ -26,29 +26,14 @@ let audioContext;
 const audioBufferCache = {};
 let japaneseVoices = [];
 loadVoices();
-loadConfig();
 
-function loadConfig() {
-  if (localStorage.getItem("darkMode") == 1) {
-    document.documentElement.setAttribute("data-bs-theme", "dark");
-  }
-}
-
-// TODO: :host-context() is not supportted by Safari/Firefox now
 function toggleDarkMode() {
-  if (localStorage.getItem("darkMode") == 1) {
-    localStorage.setItem("darkMode", 0);
-    document.documentElement.setAttribute("data-bs-theme", "light");
-    // pads.forEach((pad) => {
-    //   pad.canvas.removeAttribute("style");
-    // });
-  } else {
-    localStorage.setItem("darkMode", 1);
-    document.documentElement.setAttribute("data-bs-theme", "dark");
-    // pads.forEach((pad) => {
-    //   pad.canvas.setAttribute("style", "filter: invert(1) hue-rotate(180deg);");
-    // });
-  }
+  const html = document.documentElement;
+  const newTheme = html.getAttribute("data-bs-theme") === "dark"
+    ? "light"
+    : "dark";
+  html.setAttribute("data-bs-theme", newTheme);
+  localStorage.setItem("darkMode", newTheme);
 }
 
 function createAudioContext() {
